@@ -16,21 +16,24 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        float distanceOne = Vector2.Distance(transform.position, players[0].transform.position);
-        float distanceTwo = Vector2.Distance(transform.position, players[1].transform.position);
+        if (players.Length >= 2) // En az iki oyuncu olduğunda çalışır
+        {
+            float distanceOne = Vector2.Distance(transform.position, players[0].transform.position);
+            float distanceTwo = Vector2.Distance(transform.position, players[1].transform.position);
 
-        if(distanceOne < distanceTwo)
-        {
-            nearestPlayer = players[0];
-        }
-        else
-        {
-            nearestPlayer = players[1];
-        }
+            if (distanceOne < distanceTwo)
+            {
+                nearestPlayer = players[0];
+            }
+            else
+            {
+                nearestPlayer = players[1];
+            }
 
-        if(nearestPlayer != null)
-        {
-            transform.position = Vector2.MoveTowards(transform.position, nearestPlayer.transform.position , speed * Time.deltaTime);
+            if (nearestPlayer != null)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, nearestPlayer.transform.position, speed * Time.deltaTime);
+            }
         }
     }
 

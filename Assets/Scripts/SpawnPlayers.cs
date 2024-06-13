@@ -12,7 +12,7 @@ public class SpawnPlayers : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        SpawnPlayer();  
+       SpawnPlayer();    
     }
 
     private void SpawnPlayer()
@@ -27,4 +27,5 @@ public class SpawnPlayers : MonoBehaviourPunCallbacks
 
         PhotonNetwork.Instantiate(playerPrefab.name, randomPosition, spawnRotation);
     }
+   
 }

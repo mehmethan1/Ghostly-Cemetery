@@ -5,47 +5,43 @@ using Photon.Pun;
 
 public class Gun : MonoBehaviour
 {
-    PhotonView view;
-    static Gun player1Gun;
-    static Gun player2Gun;
+    private PhotonView view;
+    private bool gunFound = false;
 
     void Start()
     {
         view = GetComponent<PhotonView>();
 
+        // Eğer bu silah, oyuncunun yerel sahibi ise, diğer silahı bul ve ona bak
+    }
+
+    private void Update()
+    {
         if (view.IsMine)
         {
-            if (player1Gun == null)
-            {
-                player1Gun = this;
-            }
-            else
-            {
-                player2Gun = this;
-            }
+            FindAndLookAtOtherGun();
         }
     }
 
-    void Update()
+    void FindAndLookAtOtherGun()
     {
-            if (view.IsMine)
-            {
-                LookAtOtherGun();
-            }
-        
-    }
+        // Diğer tüm silahları bul
+        Gun[] allGuns = FindObjectsOfType<Gun>();
 
-    void LookAtOtherGun()
-    {
-        Debug.Log("silahlar bakışıyor");
-        // Diğer oyuncunun silahını bul
-        Gun otherGun = (this == player1Gun) ? player2Gun : player1Gun;
-
-        if (otherGun != null)
+        foreach (Gun gun in allGuns)
         {
-            Vector3 direction = otherGun.transform.position - transform.position;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+            // Kendi silahımızı zaten bulduk, o yüzden atlamalıyız
+            if (gun != this)
+            {
+                // Diğer silahı bulduk
+                gunFound = true;
+
+                // Diğer silaha bak
+                Vector3 direction = gun.transform.position - transform.position;
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+                break;
+            }
         }
     }
 }

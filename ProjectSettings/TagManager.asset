@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Gun1
   - Gun2
+  - Line
+  - Enemy
   layers:
   - Default
   - TransparentFX
